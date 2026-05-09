@@ -1,0 +1,29 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: laravel_app
+
+    ports:
+      - "8000:80"
+      - "8080:8080"
+
+    volumes:
+      - ./backend:/var/www/html
+
+  mysql:
+    image: mysql:8
+
+    container_name: mysql_db
+
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: attendance_app
+
+    ports:
+      - "3307:3306"
