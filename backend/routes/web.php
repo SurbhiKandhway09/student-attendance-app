@@ -3,7 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return response()->json([
-        'status' => 'Laravel app working on Railway 🚀'
-    ]);
+    return view('welcome');
 });
