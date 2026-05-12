@@ -9,5 +9,17 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/attendance', [AttendanceController::class, 'index']);
-Route::post('/attendance', [AttendanceController::class, 'store']);
+Route::get('/students', [
+    AttendanceController::class,
+    'students'
+]);
+
+Route::post('/attendance', [
+    AttendanceController::class,
+    'markAttendance'
+]);
+
+Route::get('/history', [
+    AttendanceController::class,
+    'history'
+]);
