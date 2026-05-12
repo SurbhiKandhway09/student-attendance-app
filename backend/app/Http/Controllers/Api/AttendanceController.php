@@ -1,25 +1,44 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AttendanceController;
+namespace App\Http\Controllers\Api;
 
-Route::get('/', function () {
-    return response()->json([
-        'message' => 'Attendance API Working'
-    ]);
-});
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Student;
+use App\Models\Attendance;
 
-Route::get('/students', [
-    AttendanceController::class,
-    'students'
-]);
+class AttendanceController extends Controller
+{
+    // Get all students
+    public function students()
+    {
+        return response()->json(
+            Student::all()
+        );
+    }
 
-Route::post('/attendance', [
-    AttendanceController::class,
-    'markAttendance'
-]);
+    // Mark attendance
+    public function markAttendance(Request $request)
+    {
+        $attendance = Attendance::create([
+            'student_id' => $request->student_id,
+            'date' => now()->toDateString(),
+            'status' => $request->status
+        ]);
 
-Route::get('/history', [
-    AttendanceController::class,
-    'history'
-]);
+        return response()->json([
+            'message' => 'Attendance Saved',
+            'data' => $attendance
+        ]);
+    }
+
+    // Attendance history
+    public function history()
+    {
+        $history = Attendance::with('student')
+            ->latest()
+            ->get();
+
+        return response()->json($history);
+    }
+}
